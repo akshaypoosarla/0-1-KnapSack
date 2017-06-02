@@ -1,0 +1,120 @@
+Table comparing the times of different algorithms and different inputs:
+
+	Brute Force	Backtracking 	B&B
+UB1	B&B
+UB2	B&B 
+UB2 Enhanced(Extra Work)	B&B
+UB3	Dynamic Programming
+N = 10	1ms	0ms	0ms	0ms	0ms	0ms	0ms
+N = 20	116	104	8ms	5ms	5ms	3ms	0ms
+N = 30	122339ms	108029ms	87ms	72ms	41ms	13ms	0ms
+N=40	33.98hrs	30.00 hrs	117228ms	1448ms	1319ms	24ms	0ms
+Largest Input 
+Solved in 10s  	25	27	33	42	46	Around 300	>8500
+
+For N =40
+Both Brute Force and Backtracking times are calculated
+Brute force:
+For N =30 time taken is 122339ms
+For N =40 2pow(40-30)*122339
+              Nearly equals to 122339 *10pow3
+             =1222339 
+             =33.98 hours
+Backtracking:
+Similarly for Back tracking if we calculate
+30.008 hours for n=40
+Screenshot for Input value =10
+ 
+
+ 
+
+
+
+
+Results Discussion:
+
+Brute Force Algorithm: This algorithm tries all the possible combinations which will be equal to 2powN different possible solutions .Its exponential algorithm which checks the all the possible conditions. I have tried running the brute force algorithm with n=40 it was running for more than a day unfortunately my system switched off.
+
+Backtracking Algorithm: This algorithm is slight modification of the Brute force algorithm where we prune the trees when the capacity is full. Even this an exponential algorithm but as we are pruning some nodes this is better than Brute force algorithm but still it takes the same order of time as brute force.
+The speed up when compared to brute force is for n =30 is just 21.429377percent
+Branch and Bound 1: Calculated the upper bound by subtracting the untaken item values from the sum of all the values. This is loose upper bound, but it’s still effective for 0/1 Knapsack when compared to backtracking. For N=30, it gives 99.92% speed up compared to Brute Force.Intrestingly even though this bound is loosest bound among remaining two there are cases when this is better than Ub2 as Ub2 involves calculating of the weights each node which is order of Theta(n) at each and every node.
+In this algorithm calculating the remaining capacity is just theta (1).
+The speed up when compared to brute force is for n =30 is 98.93425percent
+
+Branch AND Bound 2: calculated the upper bound by considering only the weights which fit into the knapsack at each node. This calculation cannot be done in the cost of theta (1).At each node we should iterate through remaining weights see if that fits.
+This will be a tighter bound compared to Ub1 so we can prune more nodes.But the cost of finding this bound is drawback for this method. Consider the situation where all the weights are just differed by small value. Then even though ub1 is looser than this we can best time with Ub1 when compared to Ub2
+The speed up when compared to brute force is for n =30 is 99.12797percent
+
+
+
+
+Branch and Bound 3:
+The tightest upper bound among all the tree. The upper bound is calculated by considering the reaming weights and remaining capacity as fractional knapsack problem and we computer the fractional knapsack bound for this. The tighter the bound the more nodes we can prune. In ten seconds this ub3 can solve more than 300 inputs while other two loose bounds solves only around 40.
+The speed up when compared to brute force is for n =30 is 99.9968percent
+Dynamic Programming:
+The best among the all the algorithms which we are comparing in this report for knapsack. The input of 50 is solved in 1ms.
+In this technique we will try to solve the sub problems and store the values so instead of solving again we just get the already computed values. This is based on Memorization technique. All the inputs less than 45 are solved in 0ms. Which is the fastest technique
+
+The speed of this algorithm is 100 percent when compared to the brute force algorithm
+
+
+Extra Work:
+
+Enhancement of Ub2:
+In the ub2 method when computing the current solution we consider only the weights which will fit in the remaining capacity. This takes the order of (n) at each node.
+Enhancement done:
+I have sorted the weights in the increasing order before we run the branch and bound and at the time of calculating the current solution the loops runs only till the weights which will fit and loop breaks soon after the item weight becomes more.
+Even though this is the same order at each node but running time decreases as we are not iterating to the loop till the end
+Algorithm:
+Sort the items in increasing order of weights
+Modification made for calculating the current solution
+		for(int i = itemNum;i <=inst.GetItemCnt();i++)
+		{
+			if( inst.GetItemWeight(i) <= remainingCapacity )
+			{
+				ubvalue = ubvalue+ inst.GetItemValue(i);
+			}
+			else
+			{
+				break;
+			}
+		}
+Consider the below example 
+Remaining capacity 5
+Weights of reaming items: 2 2 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 7 7 7 7 78 8 8 8 2
+This will be running till n th if these are not sorted in the enhanced case at each node it will check only till the first weight which is more than the capacity.
+
+For this algorithm for items less than 40 I have used insertion sort and more than 40 I have used quick sort
+
+Ub3 Enhancement
+
+I have not got the time to implement and test the code but at each node we caluculate the fractional knapsack problem 
+Idea behind this:
+Before statring of the algorithm 
+Take a two dimensional array
+Where rows represent weight coloums represent the item number
+So the value in a[i][j] will represent the solution of the fractional knapsack problem 
+Remaing weight : i
+Remaining items : j to n
+
+So if we try to implement this before instead of looping at each node we can get the fractional knapsack bound in the order of theta(1) so this eliminates the inner loop and gives us less time(As per my expectation)
+
+
+Machine Configurations
+Operating System: Linux Mint 16.0 - 64-bit
+Processor: Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
+Memory: 12.0 GB
+Cores: 2
+Logical Processors: 4
+
+
+
+
+
+
+
+
+
+
+
+
